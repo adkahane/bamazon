@@ -70,7 +70,7 @@ function displayItems() {
       }
     ])
     .then(function(answer) {
-      if (answer.quantity < res[answer.item-1].stock_quantity) {
+      if (answer.quantity <= res[answer.item-1].stock_quantity) {
         var newQuantity = (res[answer.item-1].stock_quantity) - answer.quantity;
         console.log(newQuantity);
         var updateId = answer.item;
@@ -88,7 +88,7 @@ function displayItems() {
 }
 
 function updateProduct(newQuantity, updateId) {
-  var query = connection.query("UPDATE products SET ?", [
+  var query = connection.query("UPDATE products SET ? WHERE ?", [
     {
       stock_quantity: newQuantity
     },
@@ -96,7 +96,11 @@ function updateProduct(newQuantity, updateId) {
       item_id: updateId
     }], 
     function(err, res) {
-      console.log(res);
+      if (err) throw err;
+      else {
+        console.log("Purchase successful!\n")
+      }
+
     }
   );
 }
