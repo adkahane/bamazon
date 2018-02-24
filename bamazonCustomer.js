@@ -29,7 +29,7 @@ function displayItems() {
   console.log("Welcome to Bamazon, here is what we have for sale: \n");
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
-    // instantiate 
+    // instantiate a new table and push items into it from database
     var table = new Table({
       head: ["ID", "Product", "Price"],
       colWidths: [10, 35, 15]
@@ -72,7 +72,6 @@ function displayItems() {
     .then(function(answer) {
       if (answer.quantity <= res[answer.item-1].stock_quantity) {
         var newQuantity = (res[answer.item-1].stock_quantity) - answer.quantity;
-        console.log(newQuantity);
         var updateId = answer.item;
         updateProduct(newQuantity, updateId);
         var totalPrice = res[answer.item-1].price * answer.quantity;
